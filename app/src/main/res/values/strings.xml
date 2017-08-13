@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">CoinDetector</string>
+    <string name="library_init_fail">Blad ladowania biblioteki. Skontaktuj sie z tworca aplikacji
+        aby uzyskac wiecej informacji</string>
+</resources>
