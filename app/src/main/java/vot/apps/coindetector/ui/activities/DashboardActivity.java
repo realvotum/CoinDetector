@@ -1,4 +1,4 @@
-package vot.apps.coindetector.view;
+package vot.apps.coindetector.ui.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
