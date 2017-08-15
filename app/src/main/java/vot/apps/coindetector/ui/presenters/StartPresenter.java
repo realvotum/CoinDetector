@@ -47,9 +47,9 @@ public class StartPresenter {
 
             if(openCVLibLoaded){
                 startScreen.loadDashboard();
-            }else{
-                startScreen.exit();
             }
+
+            startScreen.exit();
 
         }, 3500, TimeUnit.MILLISECONDS);
     }
