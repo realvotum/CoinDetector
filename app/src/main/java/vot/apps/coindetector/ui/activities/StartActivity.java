@@ -3,7 +3,6 @@ package vot.apps.coindetector.ui.activities;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -16,9 +15,6 @@ import vot.apps.coindetector.ui.presenters.StartPresenter;
 import vot.apps.coindetector.ui.screen_contracts.StartScreen;
 
 public class StartActivity extends AppCompatActivity implements StartScreen {
-
-    private static final String TAG = "StartActivity";
-
 
     private ImageView splashScreenImage;
     private StartPresenter mStartPresenter;

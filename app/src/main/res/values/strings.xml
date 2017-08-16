@@ -2,4 +2,7 @@
     <string name="app_name">CoinDetector</string>
     <string name="library_init_fail">Blad ladowania biblioteki. Skontaktuj sie z tworca aplikacji
         aby uzyskac wiecej informacji</string>
+    <string name="load_image">Zaladuj obraz</string>
+    <string name="open_menu">Otworz menu</string>
+    <string name="take_a_photo">Zrob nowe zdjecie</string>
 </resources>

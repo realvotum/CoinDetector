@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.activities.DashboardActivity">
+
+    <item
+        android:id="@+id/action_load_image"
+        android:orderInCategory="1"
+        android:title="@string/load_image"
+        android:icon="@drawable/ic_folder_open_white_24dp"
+        app:showAsAction="always"
+        />
+
+    <item
+        android:id="@+id/action_take_image"
+        android:orderInCategory="2"
+        android:title="@string/take_a_photo"
+        android:icon="@drawable/ic_add_a_photo_white_24dp"
+        app:showAsAction="always"
+        />
+
+    <item
+        android:id="@+id/action_open_menu"
+        android:orderInCategory="3"
+        android:title="@string/open_menu"
+        android:icon="@drawable/ic_menu_white_24dp"
+        app:showAsAction="always"
+        />
+
+</menu>

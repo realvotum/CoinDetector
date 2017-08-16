@@ -1,18 +1,9 @@
 package vot.apps.coindetector.ui.presenters;
 
-
-import android.content.Intent;
 import android.util.Log;
-import android.widget.Toast;
-
 import org.opencv.android.OpenCVLoader;
-
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-
-import vot.apps.coindetector.R;
-import vot.apps.coindetector.ui.activities.DashboardActivity;
-import vot.apps.coindetector.ui.activities.StartActivity;
 import vot.apps.coindetector.ui.screen_contracts.StartScreen;
 
 /**
