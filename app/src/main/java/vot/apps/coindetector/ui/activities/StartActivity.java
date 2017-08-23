@@ -38,6 +38,12 @@ public class StartActivity extends AppCompatActivity implements StartScreen {
     }
 
     @Override
+    protected void onPause(){
+        super.onPause();
+        mStartPresenter.stopInteraction();
+    }
+
+    @Override
     public void loadDashboard() {
         Intent startApp = new Intent(StartActivity.this,DashboardActivity.class);
         startActivity(startApp);

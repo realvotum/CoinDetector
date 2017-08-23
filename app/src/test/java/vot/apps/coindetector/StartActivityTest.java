@@ -1,17 +1,33 @@
 package vot.apps.coindetector;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.runners.MockitoJUnitRunner;
 
-import static org.junit.Assert.*;
+import vot.apps.coindetector.ui.activities.StartActivity;
+import vot.apps.coindetector.ui.presenters.StartPresenter;
+import vot.apps.coindetector.ui.screen_contracts.StartScreen;
 
-/**
- * Example local unit test, which will execute on the development machine (host).
- *
- * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
- */
-public class ExampleUnitTest {
+
+@RunWith(MockitoJUnitRunner.class)
+public class StartActivityTest {
+
+    @Mock
+    StartActivity mStartActivity;
+
+    @Mock
+    StartScreen mStartScreen;
+
     @Test
-    public void addition_isCorrect() throws Exception {
-        assertEquals(4, 2 + 2);
+    public void shouldInitiateDashboard(){
+        StartPresenter mStartPresenter = new StartPresenter();
+        mStartPresenter.interact(mStartScreen);
+
+        Mockito.verify(mStartActivity).loadDashboard();
+
     }
+
+
 }

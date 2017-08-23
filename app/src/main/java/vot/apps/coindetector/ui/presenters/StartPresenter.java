@@ -14,13 +14,12 @@ public class StartPresenter {
 
     private static final boolean openCVLibLoaded;
     private static final String TAG = "StartPresenter";
+    private ScheduledThreadPoolExecutor splashScreen;
 
     static{
         if(!OpenCVLoader.initDebug()){
-            Log.d(TAG, "OpenCV loading failed");
             openCVLibLoaded = false;
         }else{
-            Log.d(TAG, "OpenCV loaded!");
             openCVLibLoaded = true;
         }
     }
@@ -33,7 +32,7 @@ public class StartPresenter {
             startScreen.displayError();
         }
 
-        ScheduledThreadPoolExecutor splashScreen = new ScheduledThreadPoolExecutor(1);
+        splashScreen = new ScheduledThreadPoolExecutor(1);
         splashScreen.schedule(() -> {
 
             if(openCVLibLoaded){
@@ -45,5 +44,10 @@ public class StartPresenter {
         }, 3500, TimeUnit.MILLISECONDS);
     }
 
+    public void stopInteraction(){
+        if(splashScreen != null){
+            splashScreen.shutdownNow();
+        }
+    }
 
 }
