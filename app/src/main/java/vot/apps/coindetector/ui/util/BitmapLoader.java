@@ -46,7 +46,7 @@ public class BitmapLoader extends AsyncTask<Uri, Void, byte[]> {
         byte[] bytes = new byte[size];
         try {
 
-            int degreesToRotate = degreesOfRotation(file);
+           /* int degreesToRotate = degreesOfRotation(file);
 
             if (degreesToRotate != 0) {
                 Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
@@ -55,11 +55,11 @@ public class BitmapLoader extends AsyncTask<Uri, Void, byte[]> {
                 bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
                 bytes = stream.toByteArray();
 
-            }else{
+            }else{*/
                 BufferedInputStream buf = new BufferedInputStream(new FileInputStream(file));
                 buf.read(bytes, 0, bytes.length);
                 buf.close();
-            }
+           // }
 
 
         } catch (FileNotFoundException e) {

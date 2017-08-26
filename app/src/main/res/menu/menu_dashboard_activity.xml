@@ -12,13 +12,6 @@
         app:showAsAction="always"
         />
 
-    <item
-        android:id="@+id/action_take_image"
-        android:orderInCategory="2"
-        android:title="@string/take_a_photo"
-        android:icon="@drawable/ic_add_a_photo_white_24dp"
-        app:showAsAction="always"
-        />
 
     <item
         android:id="@+id/action_open_menu"
@@ -27,5 +20,14 @@
         android:icon="@drawable/ic_menu_white_24dp"
         app:showAsAction="always"
         />
+    <group>
+        <item
+            android:id="@+id/action_make_picture_gray"
+            android:orderInCategory="2"
+            android:title="@string/make_picture_gray"
+            app:showAsAction="never"
+            />
+    </group>
+
 
 </menu>

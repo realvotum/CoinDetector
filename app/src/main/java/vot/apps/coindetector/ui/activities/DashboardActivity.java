@@ -68,12 +68,12 @@ public class DashboardActivity extends AppCompatActivity implements DashboardScr
             case R.id.action_load_image:
                 mPresenter.onChooseImageFromGallery();
                 break;
-            case R.id.action_take_image:
+            case R.id.action_make_picture_gray:
+                mPresenter.makeItGray();
                 break;
             default:
                 break;
         }
-
         return super.onOptionsItemSelected(menuItem);
     }
 
@@ -81,6 +81,7 @@ public class DashboardActivity extends AppCompatActivity implements DashboardScr
     public void updateImage(byte[] bitmapByteArray) {
         Glide.with(this)
                 .load(bitmapByteArray)
+                .fitCenter()
                 .into(mImageView);
     }
 

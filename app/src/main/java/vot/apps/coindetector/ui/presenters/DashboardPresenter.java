@@ -2,35 +2,19 @@ package vot.apps.coindetector.ui.presenters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
-import android.provider.MediaStore;
-import android.support.annotation.NonNull;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.bumptech.glide.Glide;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.Collection;
-import java.util.List;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
-
 import fr.castorflex.android.circularprogressbar.CircularProgressBar;
-import vot.apps.coindetector.ui.activities.DashboardActivity;
 import vot.apps.coindetector.ui.listeners.ImageLoaderListener;
+import vot.apps.coindetector.ui.model.MatPicture;
 import vot.apps.coindetector.ui.model.Picture;
 import vot.apps.coindetector.ui.screen_contracts.DashboardScreen;
 import vot.apps.coindetector.ui.util.BitmapLoader;
+import vot.apps.coindetector.ui.util.FileExtensionFinder;
 import vot.apps.coindetector.ui.util.FilePathFinder;
+import vot.apps.coindetector.ui.util.GrayMatMaker;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -47,7 +31,9 @@ public class DashboardPresenter implements ImageLoaderListener{
     private CircularProgressBar mProgressBar;
     private LinearLayout layoutWithProgressBar;
     private ImageView mImageView;
-    private Picture mImage;
+    private Picture mPicture;
+    private MatPicture mMatPicture;
+    private String fileExtension;
 
     public DashboardPresenter(Context context, DashboardScreen mScreen,
                               CircularProgressBar progressBar, LinearLayout layout, ImageView view){
@@ -77,6 +63,8 @@ public class DashboardPresenter implements ImageLoaderListener{
         if (resultCode == RESULT_OK) {
             if (requestCode == SELECT_PICTURE) {
                 Uri selectedImageUri = selectedImage.getData();
+                FilePathFinder finder = new FilePathFinder(mContext, selectedImageUri);
+                this.fileExtension = FileExtensionFinder.getExtension(finder.getRealPathFromUri());
                 BitmapLoader loader = new BitmapLoader(mContext, DashboardPresenter.this);
                 loader.execute(selectedImageUri);
             }
@@ -88,7 +76,7 @@ public class DashboardPresenter implements ImageLoaderListener{
     }
 
     public void updateScreenImage(){
-        mScreen.updateImage(mImage.getImage());
+        mScreen.updateImage(mPicture.getImage());
     }
 
     @Override
@@ -99,18 +87,34 @@ public class DashboardPresenter implements ImageLoaderListener{
 
     @Override
     public void onImageLoaded(byte[] image) {
-        mImage = new Picture(image);
+        mPicture = new Picture(image);
+        if(fileExtension.length() > 0) {
+            mMatPicture = new MatPicture(image, fileExtension);
+        }else{
+            mMatPicture = new MatPicture(image);
+        }
     }
 
     @Override
     public void loadingFinished() {
         mScreen.hideProgressBar();
         mScreen.showImage();
-        mScreen.updateImage(mImage.getImage());
+        mScreen.updateImage(mPicture.getImage());
     }
 
     @Override
     public void loadingImageError() {
         showImageLoadingError();
+    }
+
+    public void makeItGray(){
+        GrayMatMaker grayMat = new GrayMatMaker(mMatPicture.getMatPicture(), fileExtension);
+        mMatPicture.setMatPicture(grayMat.getGrayMat());
+        mPicture.setImage(grayMat.getGrayMat());
+        updateScreenImage();
+    }
+
+    public void makeItGaussianFiltered(){
+        
     }
 }
