@@ -40,4 +40,8 @@ public class MatPicture {
     public void setMatPicture(byte[] array){
         this.picture = Imgcodecs.imdecode(new MatOfByte(array), Imgcodecs.CV_LOAD_IMAGE_UNCHANGED);
     }
+
+    public void setMatPicture(Mat mat){
+        this.picture = mat;
+    }
 }

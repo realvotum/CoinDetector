@@ -71,6 +71,9 @@ public class DashboardActivity extends AppCompatActivity implements DashboardScr
             case R.id.action_make_picture_gray:
                 mPresenter.makeItGray();
                 break;
+            case R.id.action_apply_gaussian_blur:
+                mPresenter.applyGaussianBlur();
+                break;
             default:
                 break;
         }

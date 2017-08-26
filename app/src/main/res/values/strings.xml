@@ -5,5 +5,6 @@
     <string name="load_image">Zaladuj obraz</string>
     <string name="open_menu">Otworz menu</string>
     <string name="make_picture_gray">Szare zdjecie</string>
+    <string name="apply_gaussian_blur">Filtruj gauusem</string>
     <string name="error_load_image">Nie mozna zaladowac obrazu.</string>
 </resources>

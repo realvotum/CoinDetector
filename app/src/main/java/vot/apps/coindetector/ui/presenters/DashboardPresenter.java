@@ -14,6 +14,7 @@ import vot.apps.coindetector.ui.screen_contracts.DashboardScreen;
 import vot.apps.coindetector.ui.util.BitmapLoader;
 import vot.apps.coindetector.ui.util.FileExtensionFinder;
 import vot.apps.coindetector.ui.util.FilePathFinder;
+import vot.apps.coindetector.ui.util.GaussianBlur;
 import vot.apps.coindetector.ui.util.GrayMatMaker;
 
 import static android.app.Activity.RESULT_OK;
@@ -114,7 +115,11 @@ public class DashboardPresenter implements ImageLoaderListener{
         updateScreenImage();
     }
 
-    public void makeItGaussianFiltered(){
-        
+    public void applyGaussianBlur(){
+        GaussianBlur blur = new GaussianBlur(this.mMatPicture.getMatPicture(), this.fileExtension);
+        blur.applyGaussianBlur();
+        this.mMatPicture.setMatPicture(blur.getGaussianBlurredMat());
+        this.mPicture.setImage(blur.getGaussianBlurredMatInByteArray());
+        updateScreenImage();
     }
 }
