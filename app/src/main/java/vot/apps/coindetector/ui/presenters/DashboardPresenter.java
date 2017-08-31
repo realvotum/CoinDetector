@@ -9,13 +9,16 @@ import android.widget.LinearLayout;
 import fr.castorflex.android.circularprogressbar.CircularProgressBar;
 import vot.apps.coindetector.ui.listeners.ImageLoaderListener;
 import vot.apps.coindetector.ui.model.MatPicture;
-import vot.apps.coindetector.ui.model.Picture;
+import vot.apps.coindetector.ui.model.OriginalPicture;
 import vot.apps.coindetector.ui.screen_contracts.DashboardScreen;
 import vot.apps.coindetector.ui.util.BitmapLoader;
 import vot.apps.coindetector.ui.util.FileExtensionFinder;
 import vot.apps.coindetector.ui.util.FilePathFinder;
 import vot.apps.coindetector.ui.util.GaussianBlur;
 import vot.apps.coindetector.ui.util.GrayMatMaker;
+import vot.apps.coindetector.ui.util.HoughCircles;
+import vot.apps.coindetector.ui.util.OtsuBinarizator;
+import vot.apps.coindetector.ui.util.SobelOperator;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -32,7 +35,7 @@ public class DashboardPresenter implements ImageLoaderListener{
     private CircularProgressBar mProgressBar;
     private LinearLayout layoutWithProgressBar;
     private ImageView mImageView;
-    private Picture mPicture;
+    private OriginalPicture mPicture;
     private MatPicture mMatPicture;
     private String fileExtension;
 
@@ -88,7 +91,7 @@ public class DashboardPresenter implements ImageLoaderListener{
 
     @Override
     public void onImageLoaded(byte[] image) {
-        mPicture = new Picture(image);
+        mPicture = new OriginalPicture(image);
         if(fileExtension.length() > 0) {
             mMatPicture = new MatPicture(image, fileExtension);
         }else{
@@ -110,8 +113,9 @@ public class DashboardPresenter implements ImageLoaderListener{
 
     public void makeItGray(){
         GrayMatMaker grayMat = new GrayMatMaker(mMatPicture.getMatPicture(), fileExtension);
-        mMatPicture.setMatPicture(grayMat.getGrayMat());
-        mPicture.setImage(grayMat.getGrayMat());
+        grayMat.applyGrayScale();
+        mMatPicture.setMatPicture(grayMat.getGrayMatInByteArray());
+        mPicture.setImage(grayMat.getGrayMatInByteArray());
         updateScreenImage();
     }
 
@@ -120,6 +124,32 @@ public class DashboardPresenter implements ImageLoaderListener{
         blur.applyGaussianBlur();
         this.mMatPicture.setMatPicture(blur.getGaussianBlurredMat());
         this.mPicture.setImage(blur.getGaussianBlurredMatInByteArray());
+        updateScreenImage();
+    }
+
+    public void applySobelOperator(){
+        SobelOperator sobelOperator = new SobelOperator(this.mMatPicture.getMatPicture(),
+                this.fileExtension);
+        sobelOperator.applySobelOperator();
+        this.mMatPicture.setMatPicture(sobelOperator.getSobelMatInByteArray());
+        this.mPicture.setImage(sobelOperator.getSobelMatInByteArray());
+        updateScreenImage();
+    }
+
+    public void applyOtsuBinarization(){
+        OtsuBinarizator binarizator = new OtsuBinarizator(this.mMatPicture.getMatPicture(), this.fileExtension);
+        binarizator.applyOtsuBinarization();
+        this.mMatPicture.setMatPicture(binarizator.getOtsuMatInByteArray());
+        this.mPicture.setImage(binarizator.getOtsuMatInByteArray());
+        updateScreenImage();
+    }
+
+    public void applyHoughCirclesTransformation(){
+        HoughCircles circles = new HoughCircles(this.mMatPicture.getMatPicture(),
+                this.mMatPicture.getMatOriginalPicture(), this.fileExtension);
+        circles.applyHoughCirclesDetection();
+        this.mMatPicture.setMatPicture(circles.getHoughCirclesMatInByteArray());
+        this.mPicture.setImage(circles.getHoughCirclesMatInByteArray());
         updateScreenImage();
     }
 }

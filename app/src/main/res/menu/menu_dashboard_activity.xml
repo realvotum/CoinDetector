@@ -23,7 +23,7 @@
     <group>
         <item
             android:id="@+id/action_make_picture_gray"
-            android:orderInCategory="2"
+            android:orderInCategory="1"
             android:title="@string/make_picture_gray"
             app:showAsAction="never"
             />
@@ -31,6 +31,24 @@
             android:id="@+id/action_apply_gaussian_blur"
             android:orderInCategory="2"
             android:title="@string/apply_gaussian_blur"
+            app:showAsAction="never"
+            />
+        <item
+            android:id="@+id/action_apply_sobel_operator"
+            android:orderInCategory="3"
+            android:title="@string/apply_sobel_operator"
+            app:showAsAction="never"
+            />
+        <item
+            android:id="@+id/action_apply_otsu_binarization"
+            android:title="@string/apply_otsu_binarization"
+            android:orderInCategory="4"
+            app:showAsAction="never"
+            />
+        <item
+            android:id="@+id/action_apply_hough_transformation"
+            android:orderInCategory="5"
+            android:title="@string/apply_hough_transformation"
             app:showAsAction="never"
             />
     </group>

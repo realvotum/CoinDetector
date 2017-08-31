@@ -8,9 +8,11 @@ import org.opencv.imgcodecs.Imgcodecs;
 public class MatPicture {
 
     private Mat picture;
+    private Mat originalPicture;
 
     public MatPicture(byte[] array){
        this.picture = Imgcodecs.imdecode(new MatOfByte(array), Imgcodecs.CV_IMWRITE_JPEG_QUALITY);
+       this.originalPicture = picture.clone();
     }
 
     public MatPicture(byte[] array, String extension){
@@ -30,11 +32,15 @@ public class MatPicture {
                 this.picture = Imgcodecs.imdecode(new MatOfByte(array), Imgcodecs.CV_IMWRITE_JPEG_QUALITY);
                 break;
         }
-        this.picture = Imgcodecs.imdecode(new MatOfByte(array), Imgcodecs.CV_IMWRITE_JPEG_QUALITY);
+        this.originalPicture = picture.clone();
     }
 
     public Mat getMatPicture(){
         return this.picture;
+    }
+
+    public Mat getMatOriginalPicture(){
+        return this.originalPicture;
     }
 
     public void setMatPicture(byte[] array){

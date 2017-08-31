@@ -23,8 +23,8 @@ public class GaussianBlur {
     }
 
     public void applyGaussianBlur(){
-        Size size = new Size(7,7);
-        Imgproc.GaussianBlur(src, src, size, 0, 0, Core.BORDER_CONSTANT);
+        Size size = new Size(11,11);
+        Imgproc.GaussianBlur(src, src, size, 11, 11);
     }
 
     public Mat getGaussianBlurredMat(){

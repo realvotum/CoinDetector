@@ -74,6 +74,15 @@ public class DashboardActivity extends AppCompatActivity implements DashboardScr
             case R.id.action_apply_gaussian_blur:
                 mPresenter.applyGaussianBlur();
                 break;
+            case R.id.action_apply_sobel_operator:
+                mPresenter.applySobelOperator();
+                break;
+            case R.id.action_apply_otsu_binarization:
+                mPresenter.applyOtsuBinarization();
+                break;
+            case R.id.action_apply_hough_transformation:
+                mPresenter.applyHoughCirclesTransformation();
+                break;
             default:
                 break;
         }
@@ -94,7 +103,7 @@ public class DashboardActivity extends AppCompatActivity implements DashboardScr
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(intent,
-                "Select Picture"), DashboardPresenter.SELECT_PICTURE);
+                "Select OriginalPicture"), DashboardPresenter.SELECT_PICTURE);
     }
 
     @Override

@@ -1,9 +1,9 @@
 package vot.apps.coindetector.ui.model;
 
-public class Picture {
+public class OriginalPicture {
     private byte[] image;
 
-    public Picture(byte[] imageByteArray){
+    public OriginalPicture(byte[] imageByteArray){
         this.image = imageByteArray;
     }
 
