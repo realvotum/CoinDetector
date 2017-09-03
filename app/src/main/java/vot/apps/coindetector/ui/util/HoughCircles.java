@@ -28,7 +28,7 @@ public class HoughCircles {
         Mat houghCirclesMat = new Mat(this.sobelMat.rows(), this.sobelMat.cols(), this.sobelMat.type());
 
         Imgproc.HoughCircles(this.sobelMat, houghCirclesMat, Imgproc.CV_HOUGH_GRADIENT, 1,
-                this.sobelMat.rows()/8, 200,30,0,0);
+                this.sobelMat.rows()/8, 100,90,0,1000);
 
         for (int i = 0; i < houghCirclesMat.cols(); i++)
         {
