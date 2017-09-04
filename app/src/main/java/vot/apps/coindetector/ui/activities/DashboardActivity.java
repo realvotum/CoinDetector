@@ -70,7 +70,7 @@ public class DashboardActivity extends AppCompatActivity implements DashboardScr
             case R.id.action_load_image:
                 mPresenter.onChooseImageFromGallery();
                 break;
-            case R.id.action_make_picture_gray:
+            case R.id.action_start_looking_for_circles:
                 mPresenter.startImageProcessingProcedure();
                 break;
             default:
