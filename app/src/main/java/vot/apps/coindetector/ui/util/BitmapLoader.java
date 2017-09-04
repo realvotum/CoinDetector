@@ -52,9 +52,9 @@ public class BitmapLoader extends AsyncTask<Uri, Void, byte[]> {
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-            mImageLoaderListenerWeakReference.get().loadingImageError();
+            bytes = null;
         } catch (IOException e) {
-            mImageLoaderListenerWeakReference.get().loadingImageError();
+            bytes = null;
             e.printStackTrace();
         }
         return bytes;
@@ -64,8 +64,12 @@ public class BitmapLoader extends AsyncTask<Uri, Void, byte[]> {
     protected void onPostExecute(byte[] result){
 
         if(mContextWeakReference.get() != null && mImageLoaderListenerWeakReference.get() != null){
-            mImageLoaderListenerWeakReference.get().onImageLoaded(result);
-            mImageLoaderListenerWeakReference.get().loadingFinished();
+            if(result == null){
+                mImageLoaderListenerWeakReference.get().loadingImageError();
+            }else {
+                mImageLoaderListenerWeakReference.get().onImageLoaded(result);
+                mImageLoaderListenerWeakReference.get().loadingFinished();
+            }
         }
     }
 }
