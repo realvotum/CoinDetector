@@ -18,7 +18,7 @@ public class GaussianBlur {
     private String extension;
 
     public GaussianBlur(Mat src, String extension){
-        this.src = src;
+        this.src = src.clone();
         this.extension = extension;
     }
 

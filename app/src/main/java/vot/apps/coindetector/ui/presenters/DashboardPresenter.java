@@ -3,6 +3,9 @@ package vot.apps.coindetector.ui.presenters;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -14,11 +17,7 @@ import vot.apps.coindetector.ui.screen_contracts.DashboardScreen;
 import vot.apps.coindetector.ui.util.BitmapLoader;
 import vot.apps.coindetector.ui.util.FileExtensionFinder;
 import vot.apps.coindetector.ui.util.FilePathFinder;
-import vot.apps.coindetector.ui.util.GaussianBlur;
-import vot.apps.coindetector.ui.util.GrayMatMaker;
-import vot.apps.coindetector.ui.util.HoughCircles;
-import vot.apps.coindetector.ui.util.OtsuBinarizator;
-import vot.apps.coindetector.ui.util.SobelOperator;
+import vot.apps.coindetector.ui.util.ImageProcessorTask;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -38,6 +37,8 @@ public class DashboardPresenter implements ImageLoaderListener{
     private OriginalPicture mPicture;
     private MatPicture mMatPicture;
     private String fileExtension;
+    private Thread thread;
+    private Handler mHandler;
 
     public DashboardPresenter(Context context, DashboardScreen mScreen,
                               CircularProgressBar progressBar, LinearLayout layout, ImageView view){
@@ -46,6 +47,15 @@ public class DashboardPresenter implements ImageLoaderListener{
         this.mProgressBar = progressBar;
         this.layoutWithProgressBar = layout;
         this.mImageView = view;
+        this.mHandler = new Handler(Looper.getMainLooper()){
+            @Override
+            public void handleMessage(Message inputMessage) {
+                mPicture.setImage((byte[]) inputMessage.obj);
+                mMatPicture.setMatPicture((byte[]) inputMessage.obj);
+                mScreen.hideProgressBar();
+                mScreen.updateImage(mPicture.getImage());
+            }
+        };
     }
 
     public void setProgressBarDimensAndHide(){
@@ -79,10 +89,6 @@ public class DashboardPresenter implements ImageLoaderListener{
         mScreen.showImageFromGalleryLoadingError();
     }
 
-    public void updateScreenImage(){
-        mScreen.updateImage(mPicture.getImage());
-    }
-
     @Override
     public void loadingStarted() {
         mScreen.hideImage();
@@ -111,45 +117,20 @@ public class DashboardPresenter implements ImageLoaderListener{
         showImageLoadingError();
     }
 
-    public void makeItGray(){
-        GrayMatMaker grayMat = new GrayMatMaker(mMatPicture.getMatPicture(), fileExtension);
-        grayMat.applyGrayScale();
-        mMatPicture.setMatPicture(grayMat.getGrayMatInByteArray());
-        mPicture.setImage(grayMat.getGrayMatInByteArray());
-        updateScreenImage();
+    public void startImageProcessingProcedure(){
+        mScreen.showProgressBar();
+        ImageProcessorTask task = new ImageProcessorTask(this.mMatPicture,
+                this.mPicture, this.fileExtension, this.mHandler);
+        this.thread = new Thread(task);
+        thread.start();
     }
 
-    public void applyGaussianBlur(){
-        GaussianBlur blur = new GaussianBlur(this.mMatPicture.getMatPicture(), this.fileExtension);
-        blur.applyGaussianBlur();
-        this.mMatPicture.setMatPicture(blur.getGaussianBlurredMat());
-        this.mPicture.setImage(blur.getGaussianBlurredMatInByteArray());
-        updateScreenImage();
+    public void stopProcessing(){
+        if(thread != null){
+            if(thread.isAlive()){
+                thread.interrupt();
+            }
+        }
     }
 
-    public void applySobelOperator(){
-        SobelOperator sobelOperator = new SobelOperator(this.mMatPicture.getMatPicture(),
-                this.fileExtension);
-        sobelOperator.applySobelOperator();
-        this.mMatPicture.setMatPicture(sobelOperator.getSobelMatInByteArray());
-        this.mPicture.setImage(sobelOperator.getSobelMatInByteArray());
-        updateScreenImage();
-    }
-
-    public void applyOtsuBinarization(){
-        OtsuBinarizator binarizator = new OtsuBinarizator(this.mMatPicture.getMatPicture(), this.fileExtension);
-        binarizator.applyOtsuBinarization();
-        this.mMatPicture.setMatPicture(binarizator.getOtsuMatInByteArray());
-        this.mPicture.setImage(binarizator.getOtsuMatInByteArray());
-        updateScreenImage();
-    }
-
-    public void applyHoughCirclesTransformation(){
-        HoughCircles circles = new HoughCircles(this.mMatPicture.getMatPicture(),
-                this.mMatPicture.getMatOriginalPicture(), this.fileExtension);
-        circles.applyHoughCirclesDetection();
-        this.mMatPicture.setMatPicture(circles.getHoughCirclesMatInByteArray());
-        this.mPicture.setImage(circles.getHoughCirclesMatInByteArray());
-        updateScreenImage();
-    }
 }

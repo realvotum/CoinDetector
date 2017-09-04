@@ -52,7 +52,9 @@ public class DashboardActivity extends AppCompatActivity implements DashboardScr
     @Override
     protected void onPause(){
         super.onPause();
+        mPresenter.stopProcessing();
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_dashboard_activity, menu);
@@ -69,19 +71,7 @@ public class DashboardActivity extends AppCompatActivity implements DashboardScr
                 mPresenter.onChooseImageFromGallery();
                 break;
             case R.id.action_make_picture_gray:
-                mPresenter.makeItGray();
-                break;
-            case R.id.action_apply_gaussian_blur:
-                mPresenter.applyGaussianBlur();
-                break;
-            case R.id.action_apply_sobel_operator:
-                mPresenter.applySobelOperator();
-                break;
-            case R.id.action_apply_otsu_binarization:
-                mPresenter.applyOtsuBinarization();
-                break;
-            case R.id.action_apply_hough_transformation:
-                mPresenter.applyHoughCirclesTransformation();
+                mPresenter.startImageProcessingProcedure();
                 break;
             default:
                 break;

@@ -46,52 +46,18 @@ public class BitmapLoader extends AsyncTask<Uri, Void, byte[]> {
         byte[] bytes = new byte[size];
         try {
 
-           /* int degreesToRotate = degreesOfRotation(file);
-
-            if (degreesToRotate != 0) {
-                Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
-                bitmap = rotate(bitmap, degreesToRotate);
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                bytes = stream.toByteArray();
-
-            }else{*/
                 BufferedInputStream buf = new BufferedInputStream(new FileInputStream(file));
                 buf.read(bytes, 0, bytes.length);
                 buf.close();
-           // }
-
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+            mImageLoaderListenerWeakReference.get().loadingImageError();
         } catch (IOException e) {
+            mImageLoaderListenerWeakReference.get().loadingImageError();
             e.printStackTrace();
         }
         return bytes;
-    }
-
-    private int degreesOfRotation(File file) throws IOException {
-        ExifInterface ei = new ExifInterface(file.getAbsolutePath());
-        int orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
-
-        switch (orientation) {
-            case ExifInterface.ORIENTATION_NORMAL:
-                return 90;
-            case ExifInterface.ORIENTATION_ROTATE_90:
-                return 0;
-            case ExifInterface.ORIENTATION_ROTATE_180:
-                return 270;
-            case ExifInterface.ORIENTATION_ROTATE_270:
-                return 0;
-            default:
-                return 0;
-        }
-    }
-
-    private Bitmap rotate(Bitmap bitmap, int degrees) {
-        Matrix matrix = new Matrix();
-        matrix.postRotate(degrees);
-        return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
     }
 
     @Override

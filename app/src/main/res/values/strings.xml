@@ -4,10 +4,6 @@
         aby uzyskac wiecej informacji</string>
     <string name="load_image">Zaladuj obraz</string>
     <string name="open_menu">Otworz menu</string>
-    <string name="make_picture_gray">Szare zdjecie</string>
-    <string name="apply_gaussian_blur">Filtruj gauusem</string>
-    <string name="apply_sobel_operator">Naloz operator Sobela</string>
-    <string name="apply_hough_transformation">Uzyj transformacji Hougha</string>
-    <string name="apply_otsu_binarization">Binaryzuj</string>
+    <string name="start_looking_for_circles">Znajdz monety</string>
     <string name="error_load_image">Nie mozna zaladowac obrazu.</string>
 </resources>
