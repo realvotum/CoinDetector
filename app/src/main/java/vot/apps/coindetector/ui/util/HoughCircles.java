@@ -23,7 +23,7 @@ public class HoughCircles {
     }
 
     public void applyHoughCirclesDetection(){
-        int thickness=5;
+        int thickness=10;
 
         Mat houghCirclesMat = new Mat(this.sobelMat.rows(), this.sobelMat.cols(), this.sobelMat.type());
 

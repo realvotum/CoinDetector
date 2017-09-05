@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -118,6 +119,12 @@ public class DashboardPresenter implements ImageLoaderListener{
     }
 
     public void startImageProcessingProcedure(){
+        if(this.mPicture == null || this.mPicture == null){
+            return;
+        }
+        if(this.thread != null && this.thread.isAlive()){
+            return;
+        }
         mScreen.showProgressBar();
         ImageProcessorTask task = new ImageProcessorTask(this.mMatPicture,
                 this.mPicture, this.fileExtension, this.mHandler);
@@ -129,6 +136,12 @@ public class DashboardPresenter implements ImageLoaderListener{
         if(thread != null){
             if(thread.isAlive()){
                 thread.interrupt();
+                try {
+                    thread.join();
+                }catch (InterruptedException e){
+                    e.printStackTrace();
+                }
+                Log.d("ThreadStopping", "Thread sto!");
             }
         }
     }

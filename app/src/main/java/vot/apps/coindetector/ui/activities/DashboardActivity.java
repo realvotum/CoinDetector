@@ -1,14 +1,9 @@
 package vot.apps.coindetector.ui.activities;
 
 import android.content.Intent;
-import android.database.Cursor;
-import android.media.ExifInterface;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,14 +13,10 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
-import java.io.File;
-import java.io.IOException;
-
 import fr.castorflex.android.circularprogressbar.CircularProgressBar;
 import vot.apps.coindetector.R;
 import vot.apps.coindetector.ui.presenters.DashboardPresenter;
 import vot.apps.coindetector.ui.screen_contracts.DashboardScreen;
-import vot.apps.coindetector.ui.util.FilePathFinder;
 
 public class DashboardActivity extends AppCompatActivity implements DashboardScreen {
 
@@ -46,7 +37,9 @@ public class DashboardActivity extends AppCompatActivity implements DashboardScr
         mPresenter = new DashboardPresenter(this, this, mProgressBar, mLinearLayout, mImageView);
         mPresenter.setProgressBarDimensAndHide();
         setSupportActionBar(mToolbar);
-        Glide.with(this).load(R.drawable.no_image_picture).into(mImageView);
+        Glide.with(this).load(R.drawable.no_image_picture)
+                .centerCrop()
+                .into(mImageView);
     }
 
     @Override
