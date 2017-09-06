@@ -1,6 +1,5 @@
 package vot.apps.coindetector.ui.util;
 
-import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfByte;
 import org.opencv.core.Scalar;
